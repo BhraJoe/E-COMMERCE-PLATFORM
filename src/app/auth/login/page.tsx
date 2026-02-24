@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Lock, Mail, ArrowRight, Loader2 } from "lucide-react";
 
-export default function LoginPage() {
+function LoginForm() {
      const router = useRouter();
      const searchParams = useSearchParams();
      const callbackUrl = searchParams.get("callbackUrl") || "/";
@@ -113,11 +113,19 @@ export default function LoginPage() {
 
                     <div className="text-center pt-8 border-t border-border">
                          <p className="text-xs text-gray-500 font-medium uppercase tracking-widest">
-                              Don&apos;t have an account?
+                              Don't have an account?
                               <Link href="/auth/register" className="ml-2 text-brand font-bold hover:text-accent transition-colors underline underline-offset-4">Create One</Link>
                          </p>
                     </div>
                </div>
           </div>
+     );
+}
+
+export default function LoginPage() {
+     return (
+          <Suspense fallback={<div className="min-h-[80vh] flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin" /></div>}>
+               <LoginForm />
+          </Suspense>
      );
 }

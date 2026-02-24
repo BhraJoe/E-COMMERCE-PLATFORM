@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import OrderManager from "@/components/admin/OrderManager";
 
-export default async function AdminOrderDetailPage({ params }: { params: { id: string } }) {
+export default async function AdminOrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
      const { id } = await params;
 
      const order = await prisma.order.findUnique({
